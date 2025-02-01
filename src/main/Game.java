@@ -3,6 +3,7 @@ package main;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import gamestates.Menu;
+import utilz.LoadSave;
 
 import java.awt.*;
 
@@ -24,11 +25,12 @@ public class Game  implements Runnable{
     public final static int GAME_HEIGHT =TILES_IN_HEIGHT*TILES_SIZE;
 
     public Game(){
+//        LoadSave.GetAllLevels();
         innitClasses();
 
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
-      //  gamePanel.setFocusable(true);
+       // gamePanel.setFocusable(true);
         gamePanel.requestFocus();
 
         startGameLoop();

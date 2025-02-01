@@ -69,6 +69,14 @@ public class Player extends Entity{
         initHitbox(x,y, (int)(20*Game.SCALE),(int) (28* Game.SCALE));
         initAttackBox();
     }
+
+    public void setSpawn(Point spawn){
+        this.x = spawn.x;
+        this.y = spawn.y;
+        hitbox.x= x;
+        hitbox.y = y;
+    }
+
     private void initAttackBox(){
         attackBox = new Rectangle2D.Float(x, y, (int)( 20* Game.SCALE), (int)(20* Game.SCALE));
     }
