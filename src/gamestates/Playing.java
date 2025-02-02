@@ -35,7 +35,7 @@ public class Playing extends State implements  Statemethods{
 //    private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
 //    private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH
     private int maxLvlOffsetX;
-    private BufferedImage backgroundImg, bigCloud, smallCloud;
+    private BufferedImage backgroundImg, mountain, smallCloud;
     private int[] smallCloudsPos;
     private Random rnd = new Random();
     private boolean gameOver;
@@ -49,11 +49,11 @@ public class Playing extends State implements  Statemethods{
         innitClasses();
 
         backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BACKGROUND_IMG);
-        bigCloud = LoadSave.GetSpriteAtlas(LoadSave.BIG_CLOUDS);
+        mountain = LoadSave.GetSpriteAtlas(LoadSave.MOUNTAINS);
         smallCloud= LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
         smallCloudsPos= new int[150];// render lenght for the clouds texture sheet/ aka it repeats 100 times
         for (int i = 0; i <smallCloudsPos.length; i++){
-            smallCloudsPos[i] = (int)(95*Game.SCALE) + rnd.nextInt((int)(195* Game.SCALE));// something between 90 and 150
+            smallCloudsPos[i] = (int)(95*Game.SCALE) + rnd.nextInt((int)(105* Game.SCALE));// something between 90 and 150
         }
 
         calcLvlOffset();
@@ -140,7 +140,7 @@ public class Playing extends State implements  Statemethods{
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(backgroundImg, 0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
+        g.drawImage(backgroundImg, 0,0,2* Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
         drawClouds(g);
         levelManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
@@ -159,10 +159,10 @@ public class Playing extends State implements  Statemethods{
     }
 
     private void drawClouds(Graphics g) {
-        for (int i = 0 ; i <100; i++)// clouds render lenght
-            g.drawImage(bigCloud, 0 + i * BIG_CLOUD_WIDTH -(int)(xLvlOffset*0.3),(int)(204*Game.SCALE), BIG_CLOUD_WIDTH, BIG_CLOUD_HEIGHT,null);
+        for (int i = 0 ; i <100; i++)// MOUNTAIN render lenght
+            g.drawImage(mountain, 0 + i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.3),(int)(204*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
         for(int i = 0; i < smallCloudsPos.length; i ++) {
-            g.drawImage(smallCloud, SMALL_CLOUD_WIDTH*1*i   -(int)(xLvlOffset*0.7), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
+            g.drawImage(smallCloud, SMALL_CLOUD_WIDTH*i   -(int)(xLvlOffset*0.45), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
         }
         // -(int)(xLvlOffset*0.3) in our code above, gives illusion of depth in out background sky!
 
