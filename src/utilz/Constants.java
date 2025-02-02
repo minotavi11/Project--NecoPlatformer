@@ -3,6 +3,11 @@ package utilz;
 import main.Game;
 
 public class Constants {
+    public static final float GRAVITY = 0.04f * Game.SCALE;
+    public static final int ANI_SPEED=25;
+
+
+
     public static class EnemyConstants{
         public static final int CRABBY=0;
 
@@ -129,7 +134,7 @@ public class Constants {
         public static final int HIT= 9;
         public static final int ATTACK_1 = 1;
         public static final int ATTACK_JUMP_1 = 2;
-        public static final int ATTACK_JUMP_2 = 8;
+        public static final int RESTING = 6;
         public static final int GetSpriteAmount (int player_action){
             switch (player_action){
                 case RUNNING:
@@ -144,8 +149,8 @@ public class Constants {
                     return 3;
                 case ATTACK_JUMP_1:
                     return 5;
-                case ATTACK_JUMP_2:
-                    return 5;
+                case RESTING:
+                    return 10;
                 case DEAD:
                     return 6;// ONLY 6 SPRITES
                 default:// to prevent weird shit from happening

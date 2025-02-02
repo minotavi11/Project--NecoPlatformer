@@ -1,6 +1,7 @@
 package gamestates;
 
 import entities.EnemyManager;
+import entities.Entity;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -22,6 +23,7 @@ public class Playing extends State implements  Statemethods{
     private Player player;
     private LevelManager levelManager;
     private EnemyManager enemyManager;
+    private Entity entity;
     private PauseOverlay pauseOverlay ;
     private GameOverOverlay gameOverOverlay;
     private LevelCompletedOverlay levelCompletedOverlay;
@@ -38,6 +40,8 @@ public class Playing extends State implements  Statemethods{
     private Random rnd = new Random();
     private boolean gameOver;
     private boolean lvlCompleted =false;
+    protected boolean canMove = true;
+    private boolean playerCanHeal = true;
 
 
     public Playing(Game game) {
@@ -238,62 +242,78 @@ public class Playing extends State implements  Statemethods{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(gameOver)
+        if (gameOver) {
             gameOverOverlay.keyPressed(e);
-        else
-            switch (e.getKeyCode()){
-
-            case KeyEvent.VK_W:
-                player.setUp(true);
-                break;
-            case KeyEvent.VK_A:
-                player.setLeft(true);
-                break;
-            case KeyEvent.VK_S:
-                player.setDown(true);
-                break;
-            case KeyEvent.VK_D:
-                player.setRight(true);
-                break;
-            case KeyEvent.VK_SPACE:
-                player.setJump(true);
-                break;
-            case KeyEvent.VK_BACK_SPACE:
-                Gamestate.state = Gamestate.MENU;
+        } else {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_W:
+                    if (canMove) player.setUp(true);
                     break;
-            case KeyEvent.VK_ESCAPE:
-                paused= !paused;
-                break;
-
-
+                case KeyEvent.VK_A:
+                    if (canMove) player.setLeft(true);
+                    break;
+                case KeyEvent.VK_S:
+                    if (canMove) player.setDown(true);
+                    break;
+                case KeyEvent.VK_D:
+                    if (canMove) player.setRight(true);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    if (canMove) player.setJump(true);
+                    break;
+                case KeyEvent.VK_BACK_SPACE:
+                    Gamestate.state = Gamestate.MENU;
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    paused = !paused;
+                    break;
+                case KeyEvent.VK_SHIFT:
+                    if (playerCanHeal && !isMoving()) { // Only trigger resting if no movement keys are pressed
+                        player.setResting(true);
+                        canMove = false; // Prevent movement while resting
+                        playerCanHeal = false; // Prevent further healing until SHIFT is released
+                    }
+                    break;
+            }
         }
-
     }
+
+    private boolean isMoving() {
+        return player.isUp() || player.isLeft() || player.isDown() || player.isRight();
+    }
+
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(!gameOver)
-            switch (e.getKeyCode()){
-
-            case KeyEvent.VK_W:
-                player.setUp(false);
-                break;
-            case KeyEvent.VK_A:
-                player.setLeft(false);
-                break;
-            case KeyEvent.VK_S:
-                player.setDown(false);
-                break;
-            case KeyEvent.VK_D:
-                player.setRight(false);
-                break;
-            case KeyEvent.VK_SPACE:
-                player.setJump(false);
-                break;
-
+        if (!gameOver) { // Prevent movement if game is over
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_W:
+                    player.setUp(false);
+                    break;
+                case KeyEvent.VK_A:
+                    player.setLeft(false);
+                    break;
+                case KeyEvent.VK_S:
+                    player.setDown(false);
+                    break;
+                case KeyEvent.VK_D:
+                    player.setRight(false);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    player.setJump(false);
+                    break;
+            }
         }
 
+        // Allow movement and reset healing flag when SHIFT is released
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            player.setResting(false);
+            canMove = true; // Allow movement again after resting
+            playerCanHeal = true; // Re-enable healing when SHIFT is released
+        }
     }
+
+
 
 
 
