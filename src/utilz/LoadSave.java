@@ -12,12 +12,10 @@ public class LoadSave {
     // external file importation, importation of images, storing them in a String!
     public static final String PLAYER_ATLAS = "neco-arc_sprites.png";
     public static final String LEVEL_ATLAS = "Backgrounds/outside_sprites_dusk.png";
-   // public static final String LEVEL_ONE_DATA = "level_one_data.png";
+    //ENEMIES
+    public static final String CRABBY_SPRITE= "Enemies/crabby_sprite.png";//enemy 1
 
-   // public static final String LEVEL_ONE_DATA = "level_one_data_A.png";
-
-
-
+    //UI
     public static final String MENU_BUTTONS = "button_atlas.png";
     public static final String MENU_BACKGROUND = "menu_background.png";
     public static final String PAUSE_BACKGROUND ="pause_menu.png";
@@ -25,10 +23,23 @@ public class LoadSave {
     public static final String URM_BUTTONS ="urm_buttons.png";
     public static final String VOLUME_BUTTONS ="volume_buttons.png";
     public static final String MENU_BACKGROUND_IMG ="Backgrounds/neco_background.png";
+    //ENVIRONMENT
     public static final String PLAYING_BACKGROUND_IMG ="Backgrounds/Sky_Background.png";
     public static final String MOUNTAINS ="Backgrounds/Mountains_Background.png";
     public static final String SMALL_CLOUDS ="Backgrounds/Cloud_Background.png";
-    public static final String CRABBY_SPRITE="crabby_sprite.png";//enemy 1
+    //OBJECTS
+    public static final String GRAVESTONE_BIG ="Objects/Gravestone_Big.png";
+    public static final String GRAVESTONE_SMALL ="Objects/Gravestone_Small.png";
+    public static final String STATUE ="Objects/Statue.png";
+    public static final String TREE_BIG ="Objects/Tree_Big.png";
+    public static final String TREE_MEDIUM ="Objects/Tree_Medium.png";
+    public static final String TREE_SMALL ="Objects/Tree_Small.png";
+
+    public static final String POTION_ATLAS ="Objects/potions_sprites.png";
+    public static final String CONTAINER_ATLAS ="Objects/objects_sprites.png";
+    //TRAPS
+    public static final String RUSTY_SPIKES  ="Objects/Rusty_Spikes.png";
+    //PLAYER UI
     public static final String STATUS_BAR ="health_power_bar.png";
     public static final String SLEEP_COUNT="sleep_count_cat.png ";
     public static final String COMPLETED_IMG ="completed_sprite.png";
