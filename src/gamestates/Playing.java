@@ -20,6 +20,7 @@ import java.util.Random;
 
 import static utilz.Constants.Environment.*;
 
+
 public class Playing extends State implements  Statemethods{
     private Player player;
     private LevelManager levelManager;
@@ -55,7 +56,7 @@ public class Playing extends State implements  Statemethods{
         smallCloud= LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
         smallCloudsPos= new int[150];// render lenght for the clouds texture sheet/ aka it repeats 100 times
         for (int i = 0; i <smallCloudsPos.length; i++){
-            smallCloudsPos[i] = (int)(95*Game.SCALE) + rnd.nextInt((int)(105* Game.SCALE));// something between 90 and 150
+            smallCloudsPos[i] = (int)(85*Game.SCALE) + rnd.nextInt((int)(105* Game.SCALE));// something between 90 and 150
         }
 
         calcLvlOffset();
@@ -68,7 +69,9 @@ public class Playing extends State implements  Statemethods{
     }
 
     private void loadStartLevel() {
+
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
+        objectManager.loadObjects(levelManager.getCurrentLevel());
     }
 
     private void calcLvlOffset() {
@@ -144,15 +147,28 @@ public class Playing extends State implements  Statemethods{
             xLvlOffset = 0;
     }
 
+
+
+    //DRAW IMAGES ON THE SCREEN, THE UI AND OTHER STUFF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Override
     public void draw(Graphics g) {
-        g.drawImage(backgroundImg, 0,0,2* Game.GAME_WIDTH, Game.GAME_HEIGHT, null);
-        drawClouds(g);
+
+        //THE ORDER IN WHICH YOU CALL THE METHODS CORRESPONDS WITH THE LAYERS OF THE GAME'S GRAPHICS
+
+        g.drawImage(backgroundImg, 0,0,2* Game.GAME_WIDTH, 2*Game.GAME_HEIGHT, null);
+        drawBackground(g);
         levelManager.draw(g, xLvlOffset);
-        player.render(g, xLvlOffset);
         enemyManager.draw(g, xLvlOffset);
         objectManager.draw(g, xLvlOffset);
 
+
+// use me when you want to change specific levels! I can be a switch as well!!!
+//        if (levelManager.getLvlIndex() == 1) {
+//            drawBackground(g);
+//        }
+
+        player.render(g, xLvlOffset);
+        // ///////////////////////////////////////// //
         if(paused) {
             g.setColor(new Color(0,0,0,100));//darken the background when paused
             g.fillRect(0,0, Game.GAME_WIDTH, Game.GAME_HEIGHT);// fills the darkening to the screen size
@@ -165,8 +181,8 @@ public class Playing extends State implements  Statemethods{
         }
     }
 
-    private void drawClouds(Graphics g) {
-        for (int i = 0 ; i <100; i++)// MOUNTAIN render lenght
+    private void drawBackground(Graphics g) {
+        for (int i = 0 ; i <100; i++)// MOUNTAIN render length
             g.drawImage(mountain, 0 + i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.3),(int)(204*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
         for(int i = 0; i < smallCloudsPos.length; i ++) {
             g.drawImage(smallCloud, SMALL_CLOUD_WIDTH*i   -(int)(xLvlOffset*0.45), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
@@ -176,12 +192,13 @@ public class Playing extends State implements  Statemethods{
 
     }
     public void resetAll(){
-        /* TODO: reset playing and stuff */
+
         gameOver = false;
         paused=false;
         lvlCompleted=false;
         player.resetAll();
         enemyManager.resetAllEnemies();
+        objectManager.resetAllObjects();
 
     }
 
@@ -194,7 +211,12 @@ public class Playing extends State implements  Statemethods{
     }
     public void checkEnemyHit(Rectangle2D.Float attackBox){
         enemyManager.checkEnemyHit(attackBox);
-
+    }
+    public void checkPotionTouched(Rectangle2D.Float hitbox){
+        objectManager.checkObjectTouched(hitbox);
+    }
+    public void checkObjectHit(Rectangle2D.Float attackBox){
+        objectManager.checkObjectHit(attackBox);
     }
 
     public void setMaxLvlOffset(int lvlOffset){
