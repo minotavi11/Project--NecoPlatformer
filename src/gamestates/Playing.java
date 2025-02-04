@@ -112,7 +112,7 @@ public class Playing extends State implements  Statemethods{
     public ObjectManager getObjectManager(){
         return objectManager;
     }
-
+    public LevelManager getLevelManager(){return levelManager;}
 
 
 
@@ -158,7 +158,7 @@ public class Playing extends State implements  Statemethods{
         g.drawImage(backgroundImg, 0,0,2* Game.GAME_WIDTH, 2*Game.GAME_HEIGHT, null);
         drawBackground(g);
         levelManager.draw(g, xLvlOffset);
-        enemyManager.draw(g, xLvlOffset);
+
         objectManager.draw(g, xLvlOffset);
 
 
@@ -166,8 +166,9 @@ public class Playing extends State implements  Statemethods{
 //        if (levelManager.getLvlIndex() == 1) {
 //            drawBackground(g);
 //        }
-
+        enemyManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
+
         // ///////////////////////////////////////// //
         if(paused) {
             g.setColor(new Color(0,0,0,100));//darken the background when paused
@@ -215,10 +216,10 @@ public class Playing extends State implements  Statemethods{
     public void checkPotionTouched(Rectangle2D.Float hitbox){
         objectManager.checkObjectTouched(hitbox);
     }
+    public void checkSpikesTouched(Player p) {objectManager.checkSpikesTouched(p);}
     public void checkObjectHit(Rectangle2D.Float attackBox){
         objectManager.checkObjectHit(attackBox);
     }
-
     public void setMaxLvlOffset(int lvlOffset){
         this.maxLvlOffsetX = lvlOffset;
     }
@@ -341,9 +342,6 @@ public class Playing extends State implements  Statemethods{
             playerCanHeal = true; // Re-enable healing when SHIFT is released
         }
     }
-
-
-
 
 
 

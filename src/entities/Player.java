@@ -96,8 +96,10 @@ public class Player extends Entity{
         updateAttackBox();
 
         updatePos();
-        if(moving)
+        if(moving){
             checkPotionTouched();
+            checkSpikesTouched();
+        }
         if(attacking)
             checkAttack();
         // int frameIndex = (int) ((System.currentTimeMillis() / 100) % idleAni.length);
@@ -105,6 +107,10 @@ public class Player extends Entity{
         setAnimation();
 
 
+    }
+
+    private void checkSpikesTouched() {
+        playing.checkSpikesTouched(this);
     }
 
     private void checkPotionTouched() {
@@ -312,6 +318,11 @@ public class Player extends Entity{
             currentHealth = maxHealth;
         }
     }
+
+    public void kill(){
+        currentHealth =0;
+    }
+
     public void changePower(int value){
         System.out.println("ADDED POWERRRRRRRRRRR !!!!!!!!!!!!!!!!");
     }
@@ -420,6 +431,9 @@ public class Player extends Entity{
             inAir=true;
 
     }
+
+
+
 }
 
 

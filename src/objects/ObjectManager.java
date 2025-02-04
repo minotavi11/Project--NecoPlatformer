@@ -4,7 +4,7 @@ import gamestates.Playing;
 import levels.Level;
 import main.Game;
 import utilz.LoadSave;
-
+import entities.Player;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -15,13 +15,22 @@ import static utilz.Constants.ObjectConstants.*;
 public class ObjectManager {
     private Playing playing;
     private BufferedImage [][] potionImgs, containerImgs;
+    private BufferedImage spikeImg;
+    private BufferedImage bigTreeImg;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
-
+    private ArrayList<Spike> spikes;
+    private ArrayList<Big_Tree> bigTree;
 
     public ObjectManager(Playing playing){
         this.playing = playing;
         loadImgs();
+    }
+
+    public void checkSpikesTouched(Player p) {
+        for (Spike s : spikes)
+            if (s.getHitbox().intersects(p.getHitbox()))
+                p.kill();
     }
 
     public void checkObjectTouched(Rectangle2D.Float hitbox){
@@ -42,28 +51,33 @@ public class ObjectManager {
     }
     public void checkObjectHit(Rectangle2D.Float attackbox){
         for(GameContainer gc: containers){
-            if(gc.getHitbox().intersects(attackbox)){
-                gc.setAnimation(true);
-                int type;
-                if(gc.getObjType()==BARREL){
-                    type =1;
-                    potions.add(new Potion((int)(gc.getHitbox().x+gc.getHitbox().width /2),
-                            (int)(gc.getHitbox().y+gc.getHitbox().height /4),
-                            type));
-                    return;
-                }else if (gc.getObjType()==BOX){
-                    type= 0;
-                    potions.add(new Potion((int)(gc.getHitbox().x+gc.getHitbox().width /2),
-                            (int)(gc.getHitbox().y-gc.getHitbox().height /2),
-                            type));
+            if(gc.isActive() && !gc.doAnimation ) {
+                if (gc.getHitbox().intersects(attackbox)) {
+                    gc.setAnimation(true);
+                    int type;
+                    if (gc.getObjType() == BARREL) {
+                        type = 1;
+                        potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2),
+                                (int) (gc.getHitbox().y + gc.getHitbox().height / 4),
+                                type));
+                        return;
+                    } else if (gc.getObjType() == BOX) {
+                        type = 0;
+                        potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2),
+                                (int) (gc.getHitbox().y - gc.getHitbox().height / 2),
+                                type));
+                    }
                 }
-        }
+            }
     }}
 
     /// ///////MAKING SURE NEW ITEMS LOAD WHEN I LOAD A NEW LEVEL!!!!!!!!!!!!/////////
     public void loadObjects(Level newLevel) {
-        potions = newLevel.getPotions();
-        containers = newLevel.getContainers();
+        potions = new ArrayList<>(newLevel.getPotions());
+        containers = new ArrayList<>(newLevel.getContainers()) ;
+        spikes= newLevel.getSpikes();
+        bigTree = newLevel.getBigTree();
+
 
     }
     /// //LOAD OBJECTS///////////////////
@@ -83,6 +97,8 @@ public class ObjectManager {
             for (int i = 0; i < containerImgs[j].length; i++)
                 containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
         //WHATEVER OBJECT IS NEXT
+        spikeImg =LoadSave.GetSpriteAtlas(LoadSave.RUSTY_SPIKES);
+        bigTreeImg = LoadSave.GetSpriteAtlas((LoadSave.TREE_BIG));
 
     }
 
@@ -105,7 +121,27 @@ public class ObjectManager {
     public void draw(Graphics g,int xLvlOffset){
         drawPotions(g, xLvlOffset);
         drawContainers(g, xLvlOffset);
+        drawSpikes(g, xLvlOffset);
+        drawBigTrees(g, xLvlOffset);
     }
+
+    private void drawSpikes(Graphics g, int xLvlOffset) {
+        for(Spike s: spikes)
+            g.drawImage(spikeImg, (int)(s.getHitbox().x- xLvlOffset),(int)(s.getHitbox().y - s.getyDrawOffset()),SPIKE_WIDTH,SPIKE_HEIGHT,null );
+    }
+
+    private void drawBigTrees(Graphics g, int xLvlOffset) {
+        for (Big_Tree t : bigTree) {
+            int x = t.getxDrawOffset();
+            int y = t.getyDrawOffset();
+//            System.out.println("Rendering Tree at: x = " + x + ", y = " + y + ", Adjusted X: " + (x - xLvlOffset));
+
+            g.drawImage(bigTreeImg, x - xLvlOffset, y, BIGTREE_WIDTH, BIGTREE_HEIGHT, null);
+        }
+    }
+
+
+
 
 
     private void drawPotions(Graphics g, int xLvlOffset) {
@@ -143,10 +179,12 @@ public class ObjectManager {
     }
 
      public void resetAllObjects(){
-         for(GameContainer gc : containers )
+        loadObjects(playing.getLevelManager().getCurrentLevel());
+         for(GameContainer gc : containers ) {
              gc.reset();
-             for(Potion p : potions )
+             for (Potion p : potions)
                  p.reset();
+         }
    }
 
 }

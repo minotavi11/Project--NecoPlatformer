@@ -2,8 +2,10 @@ package levels;
 
 import entities.Crabby;
 import main.Game;
+import objects.Big_Tree;
 import objects.GameContainer;
 import objects.Potion;
+import objects.Spike;
 import utilz.HelpMethods;
 import utilz.LoadSave;
 import java.awt.Point;
@@ -20,6 +22,8 @@ public class Level {
     private ArrayList<Crabby> crabs;
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
+    private ArrayList<Spike> spikes;
+    private ArrayList<Big_Tree> bigTree;
     private int lvlTilesWide ;
     private int maxTilesOffset ;
     private int maxLvlOffsetX ;
@@ -31,6 +35,8 @@ public class Level {
         createEnemies();
         createPotions();
         createContainers();
+        createSpikes();
+        createBigTree();
 
         calcLvlOffsets();
         calcPlayerSpawn();
@@ -53,7 +59,8 @@ public class Level {
     private void createContainers() { containers = HelpMethods.GetContainers(img);
     }
     private void createPotions() { potions = HelpMethods.GetPotions(img);}
-
+    private void createSpikes() { spikes = HelpMethods.GetSpikes(img);}
+    private void createBigTree() { bigTree = HelpMethods.GetTreeBig(img);}
     private void createLevelData() {
         lvlData = GetLevelData(img);
     }
@@ -80,5 +87,8 @@ public class Level {
     public ArrayList<Potion> getPotions(){return potions;}
 
     public ArrayList<GameContainer> getContainers(){return containers;}
+
+    public ArrayList<Spike> getSpikes(){return spikes;}
+    public ArrayList<Big_Tree> getBigTree(){return bigTree;}
 
 }

@@ -2,16 +2,21 @@ package utilz;
 
 import entities.Crabby;
 import main.Game;
+import objects.Big_Tree;
 import objects.GameContainer;
 import objects.Potion;
-import static utilz.Constants.ObjectConstants.*;
+import objects.Spike;
+
+
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static utilz.Constants.EnemyConstants.CRABBY;
+import static utilz.Constants.EnemyConstants.*;
+import static utilz.Constants.ObjectConstants.*;
+
 
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
@@ -202,6 +207,33 @@ public class HelpMethods {
     }
 
 
+    public static ArrayList<Spike> GetSpikes(BufferedImage img) {
+        ArrayList<Spike> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == RUSTY_SPIKES)
+                    list.add(new Spike(i* Game.TILES_SIZE, j*Game.TILES_SIZE, RUSTY_SPIKES));
+
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Big_Tree> GetTreeBig(BufferedImage img) {
+        ArrayList<Big_Tree> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == TREE_BIG)
+                    list.add(new Big_Tree(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_BIG));
+
+            }
+        }
+        return list;
+    }
 }
 
 
