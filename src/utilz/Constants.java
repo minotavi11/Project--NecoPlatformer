@@ -21,34 +21,39 @@ public class Constants {
         public static final int GRAVESTONE_BIG = 8;
         public static final int GRAVESTONE_SMALL = 9;
         public static final int STATUE = 10;
+        public static final int TREE_BIG_VERDANT = 11;
 
         // Tree Big
         public static final int BIGTREE_WIDTH_DEFAULT = 150;
         public static final int BIGTREE_HEIGHT_DEFAULT = 200;
         public static final int BIGTREE_WIDTH = (int) (Game.SCALE * BIGTREE_WIDTH_DEFAULT);
         public static final int BIGTREE_HEIGHT = (int) (Game.SCALE * BIGTREE_HEIGHT_DEFAULT);
-
+        //Tree Big Verdant
+        public static final int BIG_TREE_VERDANT_WIDTH_DEFAULT = 250;
+        public static final int BIG_TREE_VERDANT_HEIGHT_DEFAULT = 300;
+        public static final int BIG_TREE_VERDANT_WIDTH = (int) (Game.SCALE * BIG_TREE_VERDANT_WIDTH_DEFAULT);
+        public static final int BIG_TREE_VERDANT_HEIGHT = (int) (Game.SCALE * BIG_TREE_VERDANT_HEIGHT_DEFAULT);
         // Tree Medium
-        public static final int MEDIUMTREE_WIDTH_DEFAULT = 100;
-        public static final int MEDIUMTREE_HEIGHT_DEFAULT = 150;
+        public static final int MEDIUMTREE_WIDTH_DEFAULT = 90;
+        public static final int MEDIUMTREE_HEIGHT_DEFAULT = 140;
         public static final int MEDIUMTREE_WIDTH = (int) (Game.SCALE * MEDIUMTREE_WIDTH_DEFAULT);
         public static final int MEDIUMTREE_HEIGHT = (int) (Game.SCALE * MEDIUMTREE_HEIGHT_DEFAULT);
 
         // Tree Small
-        public static final int SMALLTREE_WIDTH_DEFAULT = 75;
-        public static final int SMALLTREE_HEIGHT_DEFAULT = 100;
+        public static final int SMALLTREE_WIDTH_DEFAULT = 25;
+        public static final int SMALLTREE_HEIGHT_DEFAULT = 55;
         public static final int SMALLTREE_WIDTH = (int) (Game.SCALE * SMALLTREE_WIDTH_DEFAULT);
         public static final int SMALLTREE_HEIGHT = (int) (Game.SCALE * SMALLTREE_HEIGHT_DEFAULT);
 
         // Gravestone Big
-        public static final int BIGGRAVESTONE_WIDTH_DEFAULT = 80;
-        public static final int BIGGRAVESTONE_HEIGHT_DEFAULT = 120;
+        public static final int BIGGRAVESTONE_WIDTH_DEFAULT = 45;
+        public static final int BIGGRAVESTONE_HEIGHT_DEFAULT = 40;
         public static final int BIGGRAVESTONE_WIDTH = (int) (Game.SCALE * BIGGRAVESTONE_WIDTH_DEFAULT);
         public static final int BIGGRAVESTONE_HEIGHT = (int) (Game.SCALE * BIGGRAVESTONE_HEIGHT_DEFAULT);
 
         // Gravestone Small
-        public static final int SMALLGRAVESTONE_WIDTH_DEFAULT = 50;
-        public static final int SMALLGRAVESTONE_HEIGHT_DEFAULT = 80;
+        public static final int SMALLGRAVESTONE_WIDTH_DEFAULT = 25;
+        public static final int SMALLGRAVESTONE_HEIGHT_DEFAULT = 25;
         public static final int SMALLGRAVESTONE_WIDTH = (int) (Game.SCALE * SMALLGRAVESTONE_WIDTH_DEFAULT);
         public static final int SMALLGRAVESTONE_HEIGHT = (int) (Game.SCALE * SMALLGRAVESTONE_HEIGHT_DEFAULT);
 
@@ -58,7 +63,7 @@ public class Constants {
         public static final int STATUE_WIDTH = (int) (Game.SCALE * STATUE_WIDTH_DEFAULT);
         public static final int STATUE_HEIGHT = (int) (Game.SCALE * STATUE_HEIGHT_DEFAULT);
 
-
+        //OTHER OBJECTS
         public static final int RED_POTION_VALUE = 15;
         public static final int BLUE_POTION_VALUE = 10;
 

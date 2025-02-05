@@ -5,7 +5,9 @@ import main.Game;
 public class Tree_Medium extends GameObject{
     public Tree_Medium(int x, int y, int objType) {
         super(x, y, objType);
-        xDrawOffset =x; //edit here
-        yDrawOffset= (int)( y- Game.SCALE * 16 );//edit here
+        initHitbox(16,16);
+        xDrawOffset =0; //edit here
+        yDrawOffset= (int)(Game.SCALE * 47 *(-1) );//edit here
+        hitbox.y += yDrawOffset;
     }
 }

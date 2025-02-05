@@ -184,7 +184,7 @@ public class Playing extends State implements  Statemethods{
 
     private void drawBackground(Graphics g) {
         for (int i = 0 ; i <100; i++)// MOUNTAIN render length
-            g.drawImage(mountain, 0 + i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.3),(int)(204*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
+            g.drawImage(mountain, 0 + i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.3),(int)(180*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
         for(int i = 0; i < smallCloudsPos.length; i ++) {
             g.drawImage(smallCloud, SMALL_CLOUD_WIDTH*i   -(int)(xLvlOffset*0.45), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
         }

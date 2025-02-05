@@ -14,13 +14,25 @@ import static utilz.Constants.ObjectConstants.*;
 
 public class ObjectManager {
     private Playing playing;
+
     private BufferedImage [][] potionImgs, containerImgs;
     private BufferedImage spikeImg;
     private BufferedImage bigTreeImg;
+    private BufferedImage bigTreeVerdantImg;
+    private BufferedImage mediumTreeImg;
+    private BufferedImage smallTreeImg;
+    private BufferedImage gravestoneBigImg;
+    private BufferedImage gravestoneSmallImg;
+
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
     private ArrayList<Spike> spikes;
+    private ArrayList<Gravestone_Big> gravestoneBig;
+    private ArrayList<Gravestone_Small> gravestoneSmall;
     private ArrayList<Big_Tree> bigTree;
+    private ArrayList<Big_Tree_Verdant> bigTreeVerdant;
+    private ArrayList<Tree_Medium> mediumTree;
+    private ArrayList<Tree_Small> smallTree;
 
     public ObjectManager(Playing playing){
         this.playing = playing;
@@ -76,8 +88,12 @@ public class ObjectManager {
         potions = new ArrayList<>(newLevel.getPotions());
         containers = new ArrayList<>(newLevel.getContainers()) ;
         spikes= newLevel.getSpikes();
+        gravestoneBig = newLevel.getGravestoneBig();
+        gravestoneSmall=newLevel.getGravestoneSmall();
         bigTree = newLevel.getBigTree();
-
+        bigTreeVerdant =newLevel.getBigTreeVerdant();
+        mediumTree = newLevel.getMediumTree();
+        smallTree = newLevel.getSmallTree();
 
     }
     /// //LOAD OBJECTS///////////////////
@@ -98,7 +114,12 @@ public class ObjectManager {
                 containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
         //WHATEVER OBJECT IS NEXT
         spikeImg =LoadSave.GetSpriteAtlas(LoadSave.RUSTY_SPIKES);
-        bigTreeImg = LoadSave.GetSpriteAtlas((LoadSave.TREE_BIG));
+        bigTreeImg = LoadSave.GetSpriteAtlas(LoadSave.TREE_BIG);
+        bigTreeVerdantImg = LoadSave.GetSpriteAtlas(LoadSave.TREE_BIG_VERDANT);
+        mediumTreeImg = LoadSave.GetSpriteAtlas(LoadSave.TREE_MEDIUM);
+        smallTreeImg = LoadSave.GetSpriteAtlas(LoadSave.TREE_SMALL);
+        gravestoneBigImg = LoadSave.GetSpriteAtlas(LoadSave.GRAVESTONE_BIG);
+        gravestoneSmallImg = LoadSave.GetSpriteAtlas(LoadSave.GRAVESTONE_SMALL);
 
     }
 
@@ -123,6 +144,11 @@ public class ObjectManager {
         drawContainers(g, xLvlOffset);
         drawSpikes(g, xLvlOffset);
         drawBigTrees(g, xLvlOffset);
+        drawBigTreesVerdant(g, xLvlOffset);
+        drawMediumTrees(g, xLvlOffset);
+        drawSmallTrees(g, xLvlOffset);
+        drawGravestoneBig(g, xLvlOffset);
+        drawGravestoneSmall(g, xLvlOffset);
     }
 
     private void drawSpikes(Graphics g, int xLvlOffset) {
@@ -131,13 +157,44 @@ public class ObjectManager {
     }
 
     private void drawBigTrees(Graphics g, int xLvlOffset) {
-        for (Big_Tree t : bigTree) {
-            int x = t.getxDrawOffset();
-            int y = t.getyDrawOffset();
-//            System.out.println("Rendering Tree at: x = " + x + ", y = " + y + ", Adjusted X: " + (x - xLvlOffset));
+        for (Big_Tree t : bigTree)
+            g.drawImage(bigTreeImg, (int)(t.getHitbox().x - xLvlOffset + t.getxDrawOffset()),
+                    (int)(t.getHitbox().y + t.getyDrawOffset()), BIGTREE_WIDTH, BIGTREE_HEIGHT, null);
 
-            g.drawImage(bigTreeImg, x - xLvlOffset, y, BIGTREE_WIDTH, BIGTREE_HEIGHT, null);
-        }
+    }
+    private void drawBigTreesVerdant(Graphics g, int xLvlOffset) {
+        for (Big_Tree_Verdant t : bigTreeVerdant)
+            g.drawImage(bigTreeVerdantImg, (int)(t.getHitbox().x - xLvlOffset + t.getxDrawOffset()),
+                    (int)(t.getHitbox().y + t.getyDrawOffset()), BIG_TREE_VERDANT_WIDTH, BIG_TREE_VERDANT_HEIGHT, null);
+
+    }
+
+    private void drawMediumTrees(Graphics g, int xLvlOffset) {
+        for (Tree_Medium t : mediumTree)
+            g.drawImage(mediumTreeImg, (int)(t.getHitbox().x - xLvlOffset + t.getxDrawOffset()),
+                    (int)(t.getHitbox().y + t.getyDrawOffset()), MEDIUMTREE_WIDTH, MEDIUMTREE_HEIGHT, null);
+
+    }
+
+    private void drawSmallTrees(Graphics g, int xLvlOffset) {
+        for (Tree_Small t : smallTree)
+            g.drawImage(smallTreeImg, (int)(t.getHitbox().x - xLvlOffset + t.getxDrawOffset()),
+                    (int)(t.getHitbox().y + t.getyDrawOffset()), SMALLTREE_WIDTH, SMALLTREE_HEIGHT, null);
+
+    }
+
+    private void drawGravestoneBig(Graphics g, int xLvlOffset) {
+        for (Gravestone_Big gb : gravestoneBig)
+            g.drawImage(gravestoneBigImg, (int)(gb.getHitbox().x - xLvlOffset + gb.getxDrawOffset()),
+                    (int)(gb.getHitbox().y + gb.getyDrawOffset()), BIGGRAVESTONE_WIDTH, BIGGRAVESTONE_HEIGHT, null);
+
+    }
+
+    private void drawGravestoneSmall(Graphics g, int xLvlOffset) {
+        for (Gravestone_Small gb : gravestoneSmall)
+            g.drawImage(gravestoneSmallImg, (int)(gb.getHitbox().x - xLvlOffset + gb.getxDrawOffset()),
+                    (int)(gb.getHitbox().y + gb.getyDrawOffset()), SMALLGRAVESTONE_WIDTH, SMALLGRAVESTONE_HEIGHT, null);
+
     }
 
 

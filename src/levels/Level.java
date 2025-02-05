@@ -2,10 +2,7 @@ package levels;
 
 import entities.Crabby;
 import main.Game;
-import objects.Big_Tree;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
+import objects.*;
 import utilz.HelpMethods;
 import utilz.LoadSave;
 import java.awt.Point;
@@ -23,7 +20,14 @@ public class Level {
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
     private ArrayList<Spike> spikes;
+
     private ArrayList<Big_Tree> bigTree;
+    private ArrayList<Big_Tree_Verdant> bigTreeVerdant;
+    private ArrayList<Tree_Medium> mediumTree;
+    private ArrayList<Tree_Small> smallTree;
+    private ArrayList<Gravestone_Big> gravestoneBig;
+    private ArrayList<Gravestone_Small> gravestoneSmall;
+
     private int lvlTilesWide ;
     private int maxTilesOffset ;
     private int maxLvlOffsetX ;
@@ -36,7 +40,13 @@ public class Level {
         createPotions();
         createContainers();
         createSpikes();
+
         createBigTree();
+        createBigTreeVerdant();
+        createMediumTree();
+        createSmallTree();
+        createGravestoneBig();
+        createGravestoneSmall();
 
         calcLvlOffsets();
         calcPlayerSpawn();
@@ -61,6 +71,11 @@ public class Level {
     private void createPotions() { potions = HelpMethods.GetPotions(img);}
     private void createSpikes() { spikes = HelpMethods.GetSpikes(img);}
     private void createBigTree() { bigTree = HelpMethods.GetTreeBig(img);}
+    private void createBigTreeVerdant() { bigTreeVerdant = HelpMethods.GetTreeBigVerdant(img);}
+    private void createMediumTree() { mediumTree = HelpMethods.GetTreeMedium(img);}
+    private void createSmallTree() { smallTree = HelpMethods.GetTreeSmall(img);}
+    private void createGravestoneBig() { gravestoneBig = HelpMethods.GetGravestoneBig(img);}
+    private void createGravestoneSmall() { gravestoneSmall = HelpMethods.GetGravestoneSmall(img);}
     private void createLevelData() {
         lvlData = GetLevelData(img);
     }
@@ -89,6 +104,10 @@ public class Level {
     public ArrayList<GameContainer> getContainers(){return containers;}
 
     public ArrayList<Spike> getSpikes(){return spikes;}
+    public ArrayList<Gravestone_Big> getGravestoneBig(){return gravestoneBig;}
+    public ArrayList<Gravestone_Small> getGravestoneSmall(){return gravestoneSmall;}
     public ArrayList<Big_Tree> getBigTree(){return bigTree;}
-
+    public ArrayList<Tree_Medium> getMediumTree(){return mediumTree;}
+    public ArrayList<Tree_Small> getSmallTree(){return smallTree;}
+    public ArrayList<Big_Tree_Verdant> getBigTreeVerdant() { return bigTreeVerdant;}
 }

@@ -2,11 +2,7 @@ package utilz;
 
 import entities.Crabby;
 import main.Game;
-import objects.Big_Tree;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
-
+import objects.*;
 
 
 import java.awt.*;
@@ -229,6 +225,72 @@ public class HelpMethods {
                 int value =color.getBlue();// identifies on which color on the level map the crab will spawn
                 if (value == TREE_BIG)
                     list.add(new Big_Tree(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_BIG));
+
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Gravestone_Big> GetGravestoneBig(BufferedImage img) {
+        ArrayList<Gravestone_Big> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == GRAVESTONE_BIG)
+                    list.add(new Gravestone_Big(i* Game.TILES_SIZE, j*Game.TILES_SIZE, GRAVESTONE_BIG));
+
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Gravestone_Small> GetGravestoneSmall(BufferedImage img) {
+        ArrayList<Gravestone_Small> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == GRAVESTONE_SMALL)
+                    list.add(new Gravestone_Small(i* Game.TILES_SIZE, j*Game.TILES_SIZE, GRAVESTONE_SMALL));
+
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Big_Tree_Verdant> GetTreeBigVerdant(BufferedImage img) {
+        ArrayList<Big_Tree_Verdant> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == TREE_BIG_VERDANT)
+                    list.add(new Big_Tree_Verdant(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_BIG_VERDANT));
+
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<Tree_Medium> GetTreeMedium(BufferedImage img) {
+        ArrayList<Tree_Medium> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == TREE_MEDIUM)
+                    list.add(new Tree_Medium(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_MEDIUM));
+
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Tree_Small> GetTreeSmall(BufferedImage img) {
+        ArrayList<Tree_Small> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == TREE_SMALL)
+                    list.add(new Tree_Small(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_SMALL));
 
             }
         }
