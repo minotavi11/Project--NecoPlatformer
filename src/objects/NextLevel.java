@@ -11,3 +11,4 @@ public class NextLevel extends GameObject{
         hitbox.y += yDrawOffset;
     }
 }
+
