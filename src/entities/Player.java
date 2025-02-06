@@ -19,7 +19,7 @@ public class Player extends Entity{
 
 
     private boolean moving =false , attacking = false, resting=false;
-    private boolean left, up, right, down, jump;
+    private boolean left, up, right, down, jump, interaction;
 
     private int[][] lvlData;
     private float xDrawOffset =10* Game.SCALE; //the placement of the hitbox on player width
@@ -388,6 +388,13 @@ public class Player extends Entity{
     public void setRight(boolean right) {
         this.right = right;
     }
+    public boolean isInteracting() {
+        return interaction;
+    }
+    public void setInteraction(boolean interaction) {
+        this.interaction = interaction;
+    }
+
 
 
     public void setResting(boolean resting) {

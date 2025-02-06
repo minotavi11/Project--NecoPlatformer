@@ -5,6 +5,7 @@ import entities.Entity;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
+import objects.LowerLayerManager;
 import objects.ObjectManager;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
@@ -26,6 +27,7 @@ public class Playing extends State implements  Statemethods{
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
+    private LowerLayerManager lowerLayerManager;
     private Entity entity;
     private PauseOverlay pauseOverlay ;
     private GameOverOverlay gameOverOverlay;
@@ -72,6 +74,7 @@ public class Playing extends State implements  Statemethods{
 
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
+        lowerLayerManager.loadObjects(levelManager.getCurrentLevel());
     }
 
     private void calcLvlOffset() {
@@ -82,6 +85,7 @@ public class Playing extends State implements  Statemethods{
         levelManager= new LevelManager(game);
         enemyManager = new EnemyManager(this);
         objectManager = new ObjectManager(this);
+        lowerLayerManager = new LowerLayerManager(this);
 
         player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE),this);//spawn point(on screen)
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
@@ -112,6 +116,9 @@ public class Playing extends State implements  Statemethods{
     public ObjectManager getObjectManager(){
         return objectManager;
     }
+    public LowerLayerManager getLowerLayerManager(){
+        return lowerLayerManager;
+    }
     public LevelManager getLevelManager(){return levelManager;}
 
 
@@ -125,6 +132,7 @@ public class Playing extends State implements  Statemethods{
         }else if(!gameOver){
             levelManager.update();
             objectManager.update();
+            lowerLayerManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             checkCloseToBorder();
@@ -160,7 +168,7 @@ public class Playing extends State implements  Statemethods{
         levelManager.draw(g, xLvlOffset);
 
         objectManager.draw(g, xLvlOffset);
-
+       // lowerLayerManager.draw(g,xLvlOffset);
 
 // use me when you want to change specific levels! I can be a switch as well!!!
 //        if (levelManager.getLvlIndex() == 1) {
@@ -200,6 +208,7 @@ public class Playing extends State implements  Statemethods{
         player.resetAll();
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
+        lowerLayerManager.resetAllObjects();
 
     }
 
@@ -223,6 +232,7 @@ public class Playing extends State implements  Statemethods{
     public void setMaxLvlOffset(int lvlOffset){
         this.maxLvlOffsetX = lvlOffset;
     }
+    public void checkNextLevelEntered(Rectangle2D.Float hitbox){lowerLayerManager.checkNextLevelEntered(hitbox);}
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -288,6 +298,9 @@ public class Playing extends State implements  Statemethods{
                 case KeyEvent.VK_D:
                     if (canMove) player.setRight(true);
                     break;
+                case KeyEvent.VK_E:
+                    player.setInteraction(true);
+                    break;
                 case KeyEvent.VK_SPACE:
                     if (canMove) player.setJump(true);
                     break;
@@ -328,6 +341,9 @@ public class Playing extends State implements  Statemethods{
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(false);
+                    break;
+                case KeyEvent.VK_E:
+                    player.setInteraction(false);
                     break;
                 case KeyEvent.VK_SPACE:
                     player.setJump(false);

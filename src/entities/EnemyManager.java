@@ -32,9 +32,9 @@ public class EnemyManager { // similar role to level manager, manages enemy patr
                 c.update(lvlData, player);
                 isAnyActive = true;
             }
-        if(!isAnyActive){
-            playing.setLevelCompleted(true);
-        }
+//        if(!isAnyActive){
+//            playing.setLevelCompleted(true);
+//        }
 
     }
     public void draw(Graphics g, int xLvlOffset){
