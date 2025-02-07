@@ -24,8 +24,8 @@ public class Constants {
         public static final int TREE_BIG_VERDANT = 11;
 
         // Tree Big
-        public static final int BIGTREE_WIDTH_DEFAULT = 150;
-        public static final int BIGTREE_HEIGHT_DEFAULT = 200;
+        public static final int BIGTREE_WIDTH_DEFAULT = 180;
+        public static final int BIGTREE_HEIGHT_DEFAULT = 250;
         public static final int BIGTREE_WIDTH = (int) (Game.SCALE * BIGTREE_WIDTH_DEFAULT);
         public static final int BIGTREE_HEIGHT = (int) (Game.SCALE * BIGTREE_HEIGHT_DEFAULT);
         //Tree Big Verdant
@@ -88,6 +88,8 @@ public class Constants {
                     return 7;
                 case BARREL, BOX:
                     return 8;
+                case TREE_BIG:
+                    return 5;
             }
             return 1;
         }

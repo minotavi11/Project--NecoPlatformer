@@ -31,7 +31,7 @@ public class LoadSave {
     public static final String GRAVESTONE_BIG ="Objects/Gravestone_Big.png";
     public static final String GRAVESTONE_SMALL ="Objects/Gravestone_Small.png";
     public static final String STATUE ="Objects/Statue.png";
-    public static final String TREE_BIG ="Objects/Tree_Big.png";
+    public static final String TREE_BIG ="Objects/Graveyard_Tree_1.png";
     public static final String TREE_BIG_VERDANT ="Objects/Tree_Big_Verdant.png";
     public static final String TREE_MEDIUM ="Objects/Tree_Medium.png";
     public static final String TREE_SMALL ="Objects/Tree_Small.png";

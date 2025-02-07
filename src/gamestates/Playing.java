@@ -167,9 +167,8 @@ public class Playing extends State implements  Statemethods{
         drawBackground(g);
         levelManager.draw(g, xLvlOffset);
 
+        lowerLayerManager.draw(g,xLvlOffset);
         objectManager.draw(g, xLvlOffset);
-       // lowerLayerManager.draw(g,xLvlOffset);
-
 // use me when you want to change specific levels! I can be a switch as well!!!
 //        if (levelManager.getLvlIndex() == 1) {
 //            drawBackground(g);
