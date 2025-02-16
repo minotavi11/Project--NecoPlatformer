@@ -6,15 +6,34 @@ public class Constants {
     public static final float GRAVITY = 0.04f * Game.SCALE;
     public static final int ANI_SPEED=25;
 
+    public static class LevelConstants{
+        public static final int NEXT_LEVEL = 13;
+        public static final int PREVIOUS_LEVEL = 14;
+
+        public static final int NEXT_LEVEL_WIDTH_DEFAULT = 120;
+        public static final int NEXT_LEVEL_HEIGHT_DEFAULT = 110;
+        public static final int NEXT_LEVEL_WIDTH = (int) (Game.SCALE * NEXT_LEVEL_WIDTH_DEFAULT);
+        public static final int NEXT_LEVEL_HEIGHT = (int) (Game.SCALE * NEXT_LEVEL_HEIGHT_DEFAULT);
+
+        public static final int PREVIOUS_LEVEL_WIDTH_DEFAULT = 120;
+        public static final int PREVIOUS_LEVEL_HEIGHT_DEFAULT = 110;
+        public static final int PREVIOUS_LEVEL_WIDTH = (int) (Game.SCALE * PREVIOUS_LEVEL_WIDTH_DEFAULT);
+        public static final int PREVIOUS_LEVEL_HEIGHT = (int) (Game.SCALE * PREVIOUS_LEVEL_HEIGHT_DEFAULT);
+
+
+    }
+
     public static class ObjectConstants {
 
+
+        //Object Types
         public static final int RED_POTION = 0;
         public static final int BLUE_POTION = 1;
         public static final int BARREL = 2;
         public static final int BOX = 3;
         public static final int RUSTY_SPIKES  =4;//RGB OF 4 (GREEN)
+        public static final int LIVING_FLESH = 12;
 
-        // Object Types
         public static final int TREE_BIG = 5;
         public static final int TREE_MEDIUM = 6;
         public static final int TREE_SMALL = 7;
@@ -24,15 +43,15 @@ public class Constants {
         public static final int TREE_BIG_VERDANT = 11;
 
         // Tree Big
-        public static final int BIGTREE_WIDTH_DEFAULT = 180;
-        public static final int BIGTREE_HEIGHT_DEFAULT = 250;
+        public static final int BIGTREE_WIDTH_DEFAULT = 280;
+        public static final int BIGTREE_HEIGHT_DEFAULT = 350;
         public static final int BIGTREE_WIDTH = (int) (Game.SCALE * BIGTREE_WIDTH_DEFAULT);
         public static final int BIGTREE_HEIGHT = (int) (Game.SCALE * BIGTREE_HEIGHT_DEFAULT);
         //Tree Big Verdant
-        public static final int BIG_TREE_VERDANT_WIDTH_DEFAULT = 250;
-        public static final int BIG_TREE_VERDANT_HEIGHT_DEFAULT = 300;
-        public static final int BIG_TREE_VERDANT_WIDTH = (int) (Game.SCALE * BIG_TREE_VERDANT_WIDTH_DEFAULT);
-        public static final int BIG_TREE_VERDANT_HEIGHT = (int) (Game.SCALE * BIG_TREE_VERDANT_HEIGHT_DEFAULT);
+        public static final int BACKDROP_TOMBSTONE_WIDTH_DEFAULT = 60;
+        public static final int BACKDROP_TOMBSTONE_HEIGHT_DEFAULT = 55;
+        public static final int BACKDROP_TOMBSTONE_WIDTH = (int) (Game.SCALE * BACKDROP_TOMBSTONE_WIDTH_DEFAULT);
+        public static final int BACKDROP_TOMBSTONE_HEIGHT = (int) (Game.SCALE * BACKDROP_TOMBSTONE_HEIGHT_DEFAULT);
         // Tree Medium
         public static final int MEDIUMTREE_WIDTH_DEFAULT = 90;
         public static final int MEDIUMTREE_HEIGHT_DEFAULT = 140;
@@ -77,6 +96,12 @@ public class Constants {
         public static final int SPIKE_WIDTH = (int) (Game.SCALE * SPIKE_WIDTH_DEFAULT);
         public static final int SPIKE_HEIGHT = (int) (Game.SCALE * SPIKE_HEIGHT_DEFAULT);
 
+        public static final int LIVING_FLESH_WIDTH_DEFAULT = 54;
+        public static final int LIVING_FLESH_HEIGHT_DEFAULT = 36;
+        public static final int LIVING_FLESH_WIDTH = (int) (Game.SCALE * LIVING_FLESH_WIDTH_DEFAULT);
+        public static final int LIVING_FLESH_HEIGHT = (int) (Game.SCALE * LIVING_FLESH_HEIGHT_DEFAULT);
+
+
         public static final int POTION_WIDTH_DEFAULT = 12;
         public static final int POTION_HEIGHT_DEFAULT = 16;
         public static final int POTION_WIDTH = (int) (Game.SCALE * POTION_WIDTH_DEFAULT);
@@ -90,6 +115,8 @@ public class Constants {
                     return 8;
                 case TREE_BIG:
                     return 5;
+                case LIVING_FLESH:
+                    return 4;
             }
             return 1;
         }
@@ -156,15 +183,33 @@ public class Constants {
 
         ////////////////// end of enemy constants //////////////////
     }
+
+
     public static class Environment{
         public  static final int MOUNTAIN_WIDTH_DEFAULT = 350;
         public  static final int MOUNTAIN_HEIGHT_DEFAULT = 400;
 
-        public  static final int SMALL_CLOUD_WIDTH_DEFAULT = 100;
-        public  static final int SMALL_CLOUD_HEIGHT_DEFAULT = 40;
+        public  static final int DARK_FOREST_WIDTH_DEFAULT = 450;
+        public  static final int DARK_FOREST_HEIGHT_DEFAULT = 500;
+
+
+
+        public  static final int DARK_FOREST_FLOOR_WIDTH_DEFAULT = 450;
+        public  static final int DARK_FOREST_FLOOR_HEIGHT_DEFAULT = 500;
+
+        public  static final int SMALL_CLOUD_WIDTH_DEFAULT = 800;
+        public  static final int SMALL_CLOUD_HEIGHT_DEFAULT = 300;
 
         public  static final int MOUNTAIN_WIDTH = (int)(MOUNTAIN_WIDTH_DEFAULT * Game.SCALE);
         public  static final int MOUNTAIN_HEIGHT = (int)(MOUNTAIN_HEIGHT_DEFAULT * Game.SCALE);
+
+        public  static final int DARK_FOREST_WIDTH = (int)(DARK_FOREST_WIDTH_DEFAULT * Game.SCALE);
+        public  static final int DARK_FOREST_HEIGHT = (int)(DARK_FOREST_HEIGHT_DEFAULT * Game.SCALE);
+
+
+
+        public  static final int DARK_FOREST_FLOOR_WIDTH = (int)(DARK_FOREST_FLOOR_WIDTH_DEFAULT * Game.SCALE);
+        public  static final int DARK_FOREST_FLOOR_HEIGHT = (int)(DARK_FOREST_FLOOR_HEIGHT_DEFAULT * Game.SCALE);
 
         public  static final int SMALL_CLOUD_WIDTH = (int)(SMALL_CLOUD_WIDTH_DEFAULT * Game.SCALE);
         public  static final int SMALL_CLOUD_HEIGHT = (int)(SMALL_CLOUD_HEIGHT_DEFAULT * Game.SCALE);

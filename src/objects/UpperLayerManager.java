@@ -2,90 +2,51 @@ package objects;
 
 import gamestates.Playing;
 import levels.Level;
+import main.Game;
 import utilz.LoadSave;
-
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.Random;
 
-import static utilz.Constants.ObjectConstants.*;
-
+import static utilz.Constants.Environment.*;
+/// I was too lazy to fix this code so i asked gpt to clean it for me, don't hate me, im only human ahhahahahah
 public class UpperLayerManager {
+    private int xLvlOffset;
 
-    private Playing playing;
-    private BufferedImage[][] containerImgs;
+    private Random rnd = new Random();
 
-    private ArrayList<GameContainer> containers;
-
-
-    public UpperLayerManager(Playing playing){
-        this.playing = playing;
+    public UpperLayerManager(Playing playing) {
         loadImgs();
     }
 
-
-
-
-
-    /// ///////MAKING SURE NEW ITEMS LOAD WHEN I LOAD A NEW LEVEL!!!!!!!!!!!!/////////
-    public void loadUpperObjects(Level newLevel) {
-        containers = newLevel.getContainers();
-
-    }
-    /// //LOAD OBJECTS///////////////////
+    /// Loads all necessary images
     private void loadImgs() {
 
-        //CONTAINERS
-        BufferedImage containerSprite = LoadSave.GetSpriteAtlas(LoadSave.CONTAINER_ATLAS);
-        containerImgs = new BufferedImage[2][8];
+    }
 
-        for (int j = 0; j < containerImgs.length; j++)
-            for (int i = 0; i < containerImgs[j].length; i++)
-                containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
-        //WHATEVER OBJECT IS NEXT
+    /// Draws the foreground
+    private void drawForeground(Graphics g) {
 
     }
 
-    public void update(){
-
-        //update containers
-        for(GameContainer gc : containers ) {
-            if (gc.isActive())
-                gc.update();
-        }
-        //
+    /// Draws all objects
+    public void draw(Graphics g, int xLvlOffset) {
+        this.xLvlOffset = xLvlOffset;
+        drawForeground(g);
     }
 
-
-    /// DRAW ALL ITEMS /////////////////////////////////////
-    public void draw(Graphics g, int xLvlOffset){
-        drawPotions(g, xLvlOffset);
-        drawContainers(g, xLvlOffset);
+    /// Loads upper objects when a new level is loaded
+    public void loadUpperObjects(Level newLevel) {
+        // Implement object loading logic here if needed
     }
 
-
-    private void drawPotions(Graphics g, int xLvlOffset) {
-
-    }
-    private void drawContainers(Graphics g, int xLvlOffset) {
-        for(GameContainer gc : containers ) {
-            if (gc.isActive()){
-                int type = 1;
-                g.drawImage(containerImgs[type][gc.getAniIndex()],
-                        (int)(gc.getHitbox().x- gc.getxDrawOffset() - xLvlOffset),
-                        (int)(gc.getHitbox().y- gc.getyDrawOffset()),
-                        CONTAINER_WIDTH,
-                        CONTAINER_HEIGHT,
-                        null);
-            }
-        }
+    /// Updates objects
+    public void update() {
+        // Implement update logic here if needed
     }
 
-    public void resetAllObjects(){
-        for(GameContainer gc : containers )
-            gc.reset();
+    /// Resets all objects
+    public void resetAllObjects() {
+        // Implement reset logic here if needed
     }
-
-
 }

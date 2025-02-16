@@ -39,6 +39,23 @@ public class LevelManager {
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
         game.getPlaying().getObjectManager().loadObjects(newLevel);
         game.getPlaying().getLowerLayerManager().loadObjects(newLevel);
+        game.getPlaying().getUpperLayerManager().loadUpperObjects(newLevel);
+    }
+
+    public void loadPreviousLevel(){
+        lvlIndex--;
+        if(lvlIndex < 0){
+            lvlIndex =0;
+            System.out.println("No levels bellow this one!");
+            Gamestate.state= Gamestate.MENU;
+        }
+        Level newLevel = levels.get(lvlIndex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+        game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
+        game.getPlaying().getObjectManager().loadObjects(newLevel);
+        game.getPlaying().getLowerLayerManager().loadObjects(newLevel);
+        game.getPlaying().getUpperLayerManager().loadUpperObjects(newLevel);
     }
 
 

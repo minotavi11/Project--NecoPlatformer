@@ -9,7 +9,7 @@ public class Big_Tree extends GameObject{
         initHitbox(16,16);
         xDrawOffset =0; //edit here
         yDrawOffset= (int)(Game.SCALE );//edit here
-        hitbox.y += yDrawOffset + (int)(Game.SCALE *(-205));
+        hitbox.y += yDrawOffset + (int)(Game.SCALE *(-300));
         hitbox.x -= xDrawOffset/2;
     }
     public void update(){

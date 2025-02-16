@@ -2,12 +2,20 @@ package entities;
 
 import gamestates.Playing;
 import main.Game;
+import objects.Living_Flesh;
+import objects.NextLevel;
+import objects.PreviousLevel;
+import objects.Spike;
 import utilz.Constants;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 import static utilz.Constants.PlayerConstants.*;
@@ -19,12 +27,16 @@ public class Player extends Entity{
 
 
     private boolean moving =false , attacking = false, resting=false;
-    private boolean left, up, right, down, jump, interaction;
+    private boolean left, up, right, down, jump;
+    private boolean  interaction =false;
 
     private int[][] lvlData;
     private float xDrawOffset =10* Game.SCALE; //the placement of the hitbox on player width
     private float yDrawOffset =35* Game.SCALE;// the placement of the hitbox in player height
-
+    private ArrayList<Living_Flesh> livingFlesh;
+    private  ArrayList<Spike> spikes;
+    private ArrayList<NextLevel> nextLevels;
+    private  ArrayList<PreviousLevel> previousLevels;
    //USE THIS FOR JUMPING OR FALLING! USE TIS FOR GRAVITY!
 
     private float jumpSpeed = -2.25f * Game.SCALE;//can jump 2 squares and a quarter
@@ -49,6 +61,7 @@ public class Player extends Entity{
     private int sleepCountHeight = (int) (30 * Game.SCALE);
     private int sleepCountX = (int) (50 * Game.SCALE);
     private int sleepCountY = (int) (50 * Game.SCALE);
+
 
 
     private int healthWidth = healthBarWidth;
@@ -98,19 +111,27 @@ public class Player extends Entity{
         updatePos();
         if(moving){
             checkPotionTouched();
-            checkSpikesTouched();
+            checkTrapsTouched();
         }
         if(attacking)
             checkAttack();
         // int frameIndex = (int) ((System.currentTimeMillis() / 100) % idleAni.length);
         updateAnimationTick();
         setAnimation();
-
+        checkNextLevelEntered();
+        checkPreviousLevelEntered();
 
     }
 
-    private void checkSpikesTouched() {
-        playing.checkSpikesTouched(this);
+    private void checkNextLevelEntered() {
+        playing.checkNextLevelEntered(this.getHitbox());
+    }
+    private void checkPreviousLevelEntered() {
+        playing.checkPreviousLevelEntered(this.getHitbox());
+    }
+
+    private void checkTrapsTouched() {
+        playing.checkTrapsTouched(this);
     }
 
     private void checkPotionTouched() {
@@ -139,13 +160,6 @@ public class Player extends Entity{
     }
 
     public void render(Graphics g, int lvlOffset){
-//        g.drawImage(animations[state][aniIndex] , (int)x, (int)y,2*64, 2*40,null); //THE ORIGINAL
-
-
-//        g.drawImage(animations[state][aniIndex] ,
-//                (int)(hitbox.x - xDrawOffset) - lvlOffset + flipX,
-//                (int)(hitbox.y - yDrawOffset),(int)(40* Game.SCALE) * flipW,
-//                (int)(64*Game.SCALE),null);// THE WORSE ONE
 
         width = (int)(40*Game.SCALE);
         height = (int)(64*Game.SCALE);
@@ -157,14 +171,14 @@ public class Player extends Entity{
         // width 40, height 64
         drawHitbox(g, lvlOffset );
         drawAttackBox(g, lvlOffset);
-        drawUI(g);
+//        drawUI(g);
 
 
     }
 
 
 
-    private void drawUI(Graphics g) {
+    public void drawUI(Graphics g) {
 
 
         g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
@@ -313,15 +327,35 @@ public class Player extends Entity{
         currentHealth += value;
         if(currentHealth <= 0){
             currentHealth = 0;
-           // gameOver();
+            // gameOver();
         }else if (currentHealth >= maxHealth){
             currentHealth = maxHealth;
         }
     }
 
-    public void kill(){
-        currentHealth =0;
+    private ScheduledExecutorService healthDecayScheduler;
+
+    public void startHealthDecay(int damagePerSecond) {
+        if (healthDecayScheduler != null && !healthDecayScheduler.isShutdown()) {
+            return; // Already running
+        }
+
+        healthDecayScheduler = Executors.newSingleThreadScheduledExecutor();
+        healthDecayScheduler.scheduleAtFixedRate(() -> {
+            if (currentHealth > 0) {
+                currentHealth = Math.max(0, currentHealth - damagePerSecond);
+            }
+        }, 0, 1, TimeUnit.SECONDS);
     }
+
+    public void stopHealthDecay() {
+        if (healthDecayScheduler != null && !healthDecayScheduler.isShutdown()) {
+            healthDecayScheduler.shutdown();
+            healthDecayScheduler = null;
+        }
+    }
+
+
 
     public void changePower(int value){
         System.out.println("ADDED POWERRRRRRRRRRR !!!!!!!!!!!!!!!!");
@@ -439,7 +473,10 @@ public class Player extends Entity{
 
     }
 
-
+    public ArrayList<Spike> getSpikes(){return spikes;}
+    public ArrayList<Living_Flesh> getLivingFlesh(){return livingFlesh;}
+    public ArrayList<NextLevel> getNextLevels(){return nextLevels;}
+    public  ArrayList<PreviousLevel> getPreviousLevels(){return  previousLevels;}
 
 }
 

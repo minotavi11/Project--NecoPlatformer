@@ -7,6 +7,7 @@ import levels.LevelManager;
 import main.Game;
 import objects.LowerLayerManager;
 import objects.ObjectManager;
+import objects.UpperLayerManager;
 import ui.GameOverOverlay;
 import ui.LevelCompletedOverlay;
 import ui.PauseOverlay;
@@ -28,6 +29,7 @@ public class Playing extends State implements  Statemethods{
     private EnemyManager enemyManager;
     private ObjectManager objectManager;
     private LowerLayerManager lowerLayerManager;
+    private UpperLayerManager upperLayerManager;
     private Entity entity;
     private PauseOverlay pauseOverlay ;
     private GameOverOverlay gameOverOverlay;
@@ -40,7 +42,7 @@ public class Playing extends State implements  Statemethods{
 //    private int lvlTilesWide = LoadSave.GetLevelData()[0].length;
 //    private int maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH
     private int maxLvlOffsetX;
-    private BufferedImage backgroundImg, mountain, smallCloud;
+    private BufferedImage backgroundImg,foregroundForest, mountain, smallCloud, darkForestBackgroundImg, darkForestFloorBackgroundImg;
     private int[] smallCloudsPos;
     private Random rnd = new Random();
     private boolean gameOver;
@@ -54,11 +56,14 @@ public class Playing extends State implements  Statemethods{
         innitClasses();
 
         backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.PLAYING_BACKGROUND_IMG);
+        foregroundForest = LoadSave.GetSpriteAtlas(LoadSave.DARK_FOREST_FOREGROUND_IMG);
         mountain = LoadSave.GetSpriteAtlas(LoadSave.MOUNTAINS);
+        darkForestBackgroundImg =LoadSave.GetSpriteAtlas(LoadSave.DARK_FOREST_BACKGROUND_IMG);
+        darkForestFloorBackgroundImg=LoadSave.GetSpriteAtlas(LoadSave.DARK_FOREST_FLOOR_BACKGROUND_IMG);
         smallCloud= LoadSave.GetSpriteAtlas(LoadSave.SMALL_CLOUDS);
-        smallCloudsPos= new int[150];// render lenght for the clouds texture sheet/ aka it repeats 100 times
+        smallCloudsPos= new int[5];// render lenght for the clouds texture sheet/ aka it repeats 100 times
         for (int i = 0; i <smallCloudsPos.length; i++){
-            smallCloudsPos[i] = (int)(85*Game.SCALE) + rnd.nextInt((int)(105* Game.SCALE));// something between 90 and 150
+            smallCloudsPos[i] = (int)((10)*Game.SCALE) + rnd.nextInt((int)(70* Game.SCALE));// something between 90 and 150
         }
 
         calcLvlOffset();
@@ -75,6 +80,7 @@ public class Playing extends State implements  Statemethods{
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
         objectManager.loadObjects(levelManager.getCurrentLevel());
         lowerLayerManager.loadObjects(levelManager.getCurrentLevel());
+        upperLayerManager.loadUpperObjects(levelManager.getCurrentLevel());
     }
 
     private void calcLvlOffset() {
@@ -82,19 +88,22 @@ public class Playing extends State implements  Statemethods{
     }
 
     private void innitClasses() {
-        levelManager= new LevelManager(game);
+        levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
         objectManager = new ObjectManager(this);
-        lowerLayerManager = new LowerLayerManager(this);
 
-        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE),this);//spawn point(on screen)
+        // First create the player
+        player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE), this);
         player.loadLvlData(levelManager.getCurrentLevel().getLevelData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
 
-        pauseOverlay =new PauseOverlay(this);
-        gameOverOverlay=new GameOverOverlay(this);
-        levelCompletedOverlay = new LevelCompletedOverlay(this);
+        // Then create the layer managers
+        lowerLayerManager = new LowerLayerManager(this);
+        upperLayerManager = new UpperLayerManager(this);
 
+        pauseOverlay = new PauseOverlay(this);
+        gameOverOverlay = new GameOverOverlay(this);
+        levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
     public void unpauseGame(){
@@ -119,6 +128,10 @@ public class Playing extends State implements  Statemethods{
     public LowerLayerManager getLowerLayerManager(){
         return lowerLayerManager;
     }
+    public UpperLayerManager getUpperLayerManager(){
+        return upperLayerManager;
+    }
+
     public LevelManager getLevelManager(){return levelManager;}
 
 
@@ -133,6 +146,7 @@ public class Playing extends State implements  Statemethods{
             levelManager.update();
             objectManager.update();
             lowerLayerManager.update();
+            upperLayerManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player);
             checkCloseToBorder();
@@ -171,10 +185,15 @@ public class Playing extends State implements  Statemethods{
         objectManager.draw(g, xLvlOffset);
 // use me when you want to change specific levels! I can be a switch as well!!!
 //        if (levelManager.getLvlIndex() == 1) {
-//            drawBackground(g);
+//
 //        }
         enemyManager.draw(g, xLvlOffset);
         player.render(g, xLvlOffset);
+        if (levelManager.getLvlIndex() == 0) {
+          // g.drawImage(foregroundForest, 0 -xLvlOffset,0,(int)(Game.GAME_WIDTH), (int)( Game.GAME_HEIGHT), null);
+        }
+        player.drawUI(g);
+
 
         // ///////////////////////////////////////// //
         if(paused) {
@@ -191,10 +210,14 @@ public class Playing extends State implements  Statemethods{
 
     private void drawBackground(Graphics g) {
         for (int i = 0 ; i <100; i++)// MOUNTAIN render length
-            g.drawImage(mountain, 0 + i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.3),(int)(180*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
+            g.drawImage(mountain, i * MOUNTAIN_WIDTH -(int)(xLvlOffset*0.1),(int)(105*Game.SCALE), MOUNTAIN_WIDTH, MOUNTAIN_HEIGHT,null);
         for(int i = 0; i < smallCloudsPos.length; i ++) {
-            g.drawImage(smallCloud, SMALL_CLOUD_WIDTH*i   -(int)(xLvlOffset*0.45), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
+            g.drawImage(smallCloud, (int)(SMALL_CLOUD_WIDTH*i*1.5 )  -(int)(xLvlOffset*0.6), smallCloudsPos[i], SMALL_CLOUD_WIDTH, SMALL_CLOUD_HEIGHT, null);
         }
+        for (int i = 0 ; i <100; i++)// FOREST render length
+            g.drawImage(darkForestBackgroundImg,  i * DARK_FOREST_WIDTH -(int)(xLvlOffset*0.3),(int)((-50)*Game.SCALE),DARK_FOREST_WIDTH, DARK_FOREST_HEIGHT,null);
+        for (int i = 0 ; i <100; i++)// FOREST render length
+            g.drawImage(darkForestFloorBackgroundImg,  i * DARK_FOREST_FLOOR_WIDTH -(int)(xLvlOffset*0.5),(int)((-80)*Game.SCALE),DARK_FOREST_FLOOR_WIDTH, DARK_FOREST_FLOOR_HEIGHT,null);
         // -(int)(xLvlOffset*0.3) in our code above, gives illusion of depth in out background sky!
 
 
@@ -208,13 +231,13 @@ public class Playing extends State implements  Statemethods{
         enemyManager.resetAllEnemies();
         objectManager.resetAllObjects();
         lowerLayerManager.resetAllObjects();
+        upperLayerManager.resetAllObjects();
 
     }
 
     public void setLevelCompleted(boolean levelCompleted){
         this.lvlCompleted= levelCompleted;
     }
-
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
     }
@@ -224,14 +247,17 @@ public class Playing extends State implements  Statemethods{
     public void checkPotionTouched(Rectangle2D.Float hitbox){
         objectManager.checkObjectTouched(hitbox);
     }
-    public void checkSpikesTouched(Player p) {objectManager.checkSpikesTouched(p);}
+    public void checkTrapsTouched(Player p) {objectManager.checkTrapsTouched(p);}
     public void checkObjectHit(Rectangle2D.Float attackBox){
         objectManager.checkObjectHit(attackBox);
     }
     public void setMaxLvlOffset(int lvlOffset){
         this.maxLvlOffsetX = lvlOffset;
     }
+
+    //NEW LEVEL!!!!!!  NEW LEVEL!!!!!!  NEW LEVEL!!!!!!  NEW LEVEL!!!!!!  NEW LEVEL!!!!!!  NEW LEVEL!!!!!!  NEW LEVEL!!
     public void checkNextLevelEntered(Rectangle2D.Float hitbox){lowerLayerManager.checkNextLevelEntered(hitbox);}
+    public void checkPreviousLevelEntered(Rectangle2D.Float hitbox){lowerLayerManager.checkPreviousLevelEntered(hitbox);}
 
     @Override
     public void mouseClicked(MouseEvent e) {

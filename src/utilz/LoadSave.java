@@ -22,17 +22,23 @@ public class LoadSave {
     public static final String SOUND_BUTTONS ="sound_button.png";
     public static final String URM_BUTTONS ="urm_buttons.png";
     public static final String VOLUME_BUTTONS ="volume_buttons.png";
-    public static final String MENU_BACKGROUND_IMG ="Backgrounds/neco_background.png";
+    public static final String MENU_BACKGROUND_IMG ="Backgrounds/Graveyard_Background.png";
     //ENVIRONMENT
     public static final String PLAYING_BACKGROUND_IMG ="Backgrounds/Sky_Background.png";
+    public static final String DARK_FOREST_BACKGROUND_IMG ="Backgrounds/Dark_Forest_Background.png";
+    public static final String DARK_FOREST_FLOOR_BACKGROUND_IMG ="Backgrounds/DarkForestFloor.png";
+    public static final String DARK_FOREST_FOREGROUND_IMG ="Foregrounds/ForestForeground.png";
     public static final String MOUNTAINS ="Backgrounds/Mountains_Background.png";
-    public static final String SMALL_CLOUDS ="Backgrounds/Cloud_Background.png";
+    public static final String SMALL_CLOUDS ="Backgrounds/ManyClouds.png";
+    //LEVELS
+    public static final String NEXT_LEVEL_IMG="Objects/NextLevel.png";
+    public static final String PREVIOUS_LEVEL_IMG = "Objects/PrevLevel.png";
     //OBJECTS
     public static final String GRAVESTONE_BIG ="Objects/Gravestone_Big.png";
     public static final String GRAVESTONE_SMALL ="Objects/Gravestone_Small.png";
     public static final String STATUE ="Objects/Statue.png";
     public static final String TREE_BIG ="Objects/Graveyard_Tree_1.png";
-    public static final String TREE_BIG_VERDANT ="Objects/Tree_Big_Verdant.png";
+    public static final String BACKDROPTOMBSTONE ="Objects/BackdropTombstones.png";
     public static final String TREE_MEDIUM ="Objects/Tree_Medium.png";
     public static final String TREE_SMALL ="Objects/Tree_Small.png";
 
@@ -40,6 +46,7 @@ public class LoadSave {
     public static final String CONTAINER_ATLAS ="Objects/objects_sprites.png";
     //TRAPS
     public static final String RUSTY_SPIKES  ="Objects/Rusty_Spikes.png";
+    public static final String LIVING_FLESH = "Objects/Living_Flesh.png";
     //PLAYER UI
     public static final String STATUS_BAR ="health_power_bar.png";
     public static final String SLEEP_COUNT="sleep_count_cat.png ";

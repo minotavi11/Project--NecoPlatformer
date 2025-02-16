@@ -2,7 +2,6 @@ package objects;
 
 import gamestates.Playing;
 import levels.Level;
-import main.Game;
 import utilz.LoadSave;
 import entities.Player;
 import java.awt.*;
@@ -15,6 +14,7 @@ public class ObjectManager {
     private Playing playing;
 
     private BufferedImage [][] potionImgs, containerImgs;
+    private BufferedImage [][] livingFleshImg;
     private BufferedImage spikeImg;
     private BufferedImage gravestoneBigImg;
     private BufferedImage gravestoneSmallImg;
@@ -22,6 +22,7 @@ public class ObjectManager {
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
     private ArrayList<Spike> spikes;
+    private ArrayList<Living_Flesh> livingFlesh;
     private ArrayList<Gravestone_Big> gravestoneBig;
     private ArrayList<Gravestone_Small> gravestoneSmall;
 
@@ -30,10 +31,25 @@ public class ObjectManager {
         loadImgs();
     }
 
-    public void checkSpikesTouched(Player p) {
+    public void checkTrapsTouched(Player p) {
+        boolean touchingTrap = false;
+
         for (Spike s : spikes)
-            if (s.getHitbox().intersects(p.getHitbox()))
-                p.kill();
+            if (s.getHitbox().intersects(p.getHitbox())) {
+                touchingTrap = true;
+            }
+        for (Living_Flesh fl : livingFlesh)
+            if (fl.getHitbox().intersects(p.getHitbox())) {
+                touchingTrap = true;
+            }
+        if(touchingTrap){
+            p.startHealthDecay(15);
+        }else
+            p.stopHealthDecay();
+
+
+
+
     }
 
     public void checkObjectTouched(Rectangle2D.Float hitbox){
@@ -79,6 +95,7 @@ public class ObjectManager {
 
     public void loadObjects(Level newLevel) {
         potions = new ArrayList<>(newLevel.getPotions());
+        livingFlesh = newLevel.getLivingFlesh();
         containers = new ArrayList<>(newLevel.getContainers());
         spikes = newLevel.getSpikes();
         gravestoneBig = newLevel.getGravestoneBig();
@@ -101,6 +118,13 @@ public class ObjectManager {
                 containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
 
         spikeImg = LoadSave.GetSpriteAtlas(LoadSave.RUSTY_SPIKES);
+
+        BufferedImage livingFleshSprite = LoadSave.GetSpriteAtlas(LoadSave.LIVING_FLESH);
+        livingFleshImg = new BufferedImage[1][4];
+        for (int j = 0; j < livingFleshImg.length; j++)
+            for (int i = 0; i < livingFleshImg[j].length; i++)
+                livingFleshImg[j][i] = livingFleshSprite.getSubimage(44 * i, 26 * j, 44, 26);
+
         gravestoneBigImg = LoadSave.GetSpriteAtlas(LoadSave.GRAVESTONE_BIG);
         gravestoneSmallImg = LoadSave.GetSpriteAtlas(LoadSave.GRAVESTONE_SMALL);
     }
@@ -114,6 +138,10 @@ public class ObjectManager {
             if (gc.isActive())
                 gc.update();
         }
+        for(Living_Flesh fl: livingFlesh){
+            if (fl.isActive())
+                fl.update();
+        }
     }
 
     public void draw(Graphics g,int xLvlOffset){
@@ -122,11 +150,27 @@ public class ObjectManager {
         drawSpikes(g, xLvlOffset);
         drawGravestoneBig(g, xLvlOffset);
         drawGravestoneSmall(g, xLvlOffset);
+        drawLivingFlesh(g, xLvlOffset);
     }
 
     private void drawSpikes(Graphics g, int xLvlOffset) {
         for(Spike s: spikes)
             g.drawImage(spikeImg, (int)(s.getHitbox().x- xLvlOffset),(int)(s.getHitbox().y - s.getyDrawOffset()),SPIKE_WIDTH,SPIKE_HEIGHT,null );
+    }
+
+    private void drawLivingFlesh(Graphics g, int xLvlOffset) {
+        for (Living_Flesh fl : livingFlesh) {
+            if (fl.isActive()) {
+
+                    // For debugging the hitbox
+                    g.setColor(Color.RED);
+                    g.drawRect((int) fl.getHitbox().x - xLvlOffset, (int) fl.getHitbox().y, (int) fl.getHitbox().width, (int) fl.getHitbox().height);
+                g.drawImage(livingFleshImg[0][fl.getAniIndex()],
+                        (int) (fl.getHitbox().x - fl.getxDrawOffset() - xLvlOffset),
+                        (int) (fl.getHitbox().y - fl.getyDrawOffset()),
+                        LIVING_FLESH_WIDTH, LIVING_FLESH_HEIGHT, null);
+            }
+        }
     }
 
     private void drawGravestoneBig(Graphics g, int xLvlOffset) {

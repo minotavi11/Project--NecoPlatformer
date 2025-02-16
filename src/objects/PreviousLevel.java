@@ -2,8 +2,8 @@ package objects;
 
 import main.Game;
 
-public class NextLevel extends GameObject{
-    public NextLevel(int x, int y, int objType) {
+public class PreviousLevel extends GameObject{
+    public PreviousLevel(int x, int y, int objType) {
         super(x, y, objType);
         initHitbox(120,110);
         xDrawOffset =0;
@@ -11,4 +11,3 @@ public class NextLevel extends GameObject{
         hitbox.y += yDrawOffset;
     }
 }
-

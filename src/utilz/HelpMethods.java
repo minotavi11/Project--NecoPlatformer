@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.ObjectConstants.*;
+import static utilz.Constants.LevelConstants.*;
 
 
 public class HelpMethods {
@@ -202,6 +203,40 @@ public class HelpMethods {
         return list;
     }
 
+//          OBJECTS ////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    public static ArrayList<NextLevel> GetNextLevel(BufferedImage img) {
+        ArrayList<NextLevel> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                    if (value == NEXT_LEVEL)
+                    list.add(new NextLevel(i* Game.TILES_SIZE, j*Game.TILES_SIZE, NEXT_LEVEL));
+
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<PreviousLevel> GetPreviousLevel(BufferedImage img) {
+        ArrayList<PreviousLevel> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == PREVIOUS_LEVEL)
+                    list.add(new PreviousLevel(i* Game.TILES_SIZE, j*Game.TILES_SIZE, PREVIOUS_LEVEL));
+
+            }
+        }
+        return list;
+    }
+
+    
+
 
     public static ArrayList<Spike> GetSpikes(BufferedImage img) {
         ArrayList<Spike> list = new ArrayList<>();
@@ -230,6 +265,20 @@ public class HelpMethods {
         }
         return list;
     }
+    public static ArrayList<Living_Flesh> GetLivingFlesh(BufferedImage img) {
+        ArrayList<Living_Flesh> list = new ArrayList<>();
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value =color.getBlue();// identifies on which color on the level map the crab will spawn
+                if (value == LIVING_FLESH)
+                    list.add(new Living_Flesh(i* Game.TILES_SIZE, j*Game.TILES_SIZE, LIVING_FLESH));
+
+            }
+        }
+        return list;
+    }
+
     public static ArrayList<Gravestone_Big> GetGravestoneBig(BufferedImage img) {
         ArrayList<Gravestone_Big> list = new ArrayList<>();
         for(int j=0; j< img.getHeight(); j++){
@@ -256,14 +305,14 @@ public class HelpMethods {
         }
         return list;
     }
-    public static ArrayList<Big_Tree_Verdant> GetTreeBigVerdant(BufferedImage img) {
-        ArrayList<Big_Tree_Verdant> list = new ArrayList<>();
+    public static ArrayList<BackdropTombstone> GetTreeBigVerdant(BufferedImage img) {
+        ArrayList<BackdropTombstone> list = new ArrayList<>();
         for(int j=0; j< img.getHeight(); j++){
             for(int i=0; i<img.getWidth(); i++){
                 Color color = new Color(img.getRGB(i,j));
                 int value =color.getBlue();// identifies on which color on the level map the crab will spawn
                 if (value == TREE_BIG_VERDANT)
-                    list.add(new Big_Tree_Verdant(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_BIG_VERDANT));
+                    list.add(new BackdropTombstone(i* Game.TILES_SIZE, j*Game.TILES_SIZE, TREE_BIG_VERDANT));
 
             }
         }

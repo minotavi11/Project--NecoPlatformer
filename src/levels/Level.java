@@ -4,7 +4,7 @@ import entities.Crabby;
 import main.Game;
 import objects.*;
 import utilz.HelpMethods;
-import utilz.LoadSave;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -20,9 +20,14 @@ public class Level {
     private ArrayList<Potion> potions;
     private ArrayList<GameContainer> containers;
     private ArrayList<Spike> spikes;
+    private ArrayList<Living_Flesh> livingFlesh;
+
+    private ArrayList<NextLevel> nextLevels;
+    private ArrayList<PreviousLevel> previousLevels;
+
 
     private ArrayList<Big_Tree> bigTree;
-    private ArrayList<Big_Tree_Verdant> bigTreeVerdant;
+    private ArrayList<BackdropTombstone> bigTreeVerdant;
     private ArrayList<Tree_Medium> mediumTree;
     private ArrayList<Tree_Small> smallTree;
     private ArrayList<Gravestone_Big> gravestoneBig;
@@ -39,7 +44,9 @@ public class Level {
         createEnemies();
         createPotions();
         createContainers();
+
         createSpikes();
+        createLivingFlesh();
 
         createBigTree();
         createBigTreeVerdant();
@@ -47,6 +54,9 @@ public class Level {
         createSmallTree();
         createGravestoneBig();
         createGravestoneSmall();
+
+        createNextLevel();
+        createPreviousLevel();
 
         calcLvlOffsets();
         calcPlayerSpawn();
@@ -70,6 +80,7 @@ public class Level {
     }
     private void createPotions() { potions = HelpMethods.GetPotions(img);}
     private void createSpikes() { spikes = HelpMethods.GetSpikes(img);}
+    private void createLivingFlesh () {livingFlesh =HelpMethods.GetLivingFlesh(img);}
     private void createBigTree() { bigTree = HelpMethods.GetTreeBig(img);}
     private void createBigTreeVerdant() { bigTreeVerdant = HelpMethods.GetTreeBigVerdant(img);}
     private void createMediumTree() { mediumTree = HelpMethods.GetTreeMedium(img);}
@@ -79,6 +90,9 @@ public class Level {
     private void createLevelData() {
         lvlData = GetLevelData(img);
     }
+
+    private void createNextLevel(){ nextLevels = HelpMethods.GetNextLevel(img);}
+    private void createPreviousLevel(){previousLevels = HelpMethods.GetPreviousLevel(img);}
 
     public int getSpriteIndex(int x, int y){
         return lvlData[y][x];
@@ -103,11 +117,15 @@ public class Level {
 
     public ArrayList<GameContainer> getContainers(){return containers;}
 
+    public ArrayList<NextLevel>  getNextLevels(){return nextLevels;}
+    public ArrayList<PreviousLevel> getPreviousLevels(){return previousLevels;}
+
     public ArrayList<Spike> getSpikes(){return spikes;}
+    public ArrayList<Living_Flesh> getLivingFlesh(){return livingFlesh;}
     public ArrayList<Gravestone_Big> getGravestoneBig(){return gravestoneBig;}
     public ArrayList<Gravestone_Small> getGravestoneSmall(){return gravestoneSmall;}
     public ArrayList<Big_Tree> getBigTree(){return bigTree;}
     public ArrayList<Tree_Medium> getMediumTree(){return mediumTree;}
     public ArrayList<Tree_Small> getSmallTree(){return smallTree;}
-    public ArrayList<Big_Tree_Verdant> getBigTreeVerdant() { return bigTreeVerdant;}
+    public ArrayList<BackdropTombstone> getBigTreeVerdant() { return bigTreeVerdant;}
 }
