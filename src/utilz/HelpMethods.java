@@ -1,6 +1,7 @@
 package utilz;
 
 import entities.Crabby;
+import levels.LevelManager;
 import main.Game;
 import objects.*;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import static utilz.Constants.EnemyConstants.*;
 import static utilz.Constants.ObjectConstants.*;
 import static utilz.Constants.LevelConstants.*;
-
+import static levels.LevelManager.*;
 
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] lvlData) {
@@ -162,15 +163,25 @@ public class HelpMethods {
     }
 
 
-    public  static Point GetPlayerSpawn(BufferedImage img){
+    public static Point GetPlayerSpawn(BufferedImage img){
         for(int j=0; j< img.getHeight(); j++){
             for(int i=0; i<img.getWidth(); i++){
                 Color color = new Color(img.getRGB(i,j));
-                int value =color.getGreen();// identifies on which color on the level map the crab will spawn
-                if (value ==100)
+               LevelManager.spawnValue = color.getBlue();
+
+                // Dacă vine din nivelul anterior, caută spawn point cu valoare NEXT_LEVEL
+                if (LevelManager.comingFromPreviousLevel && LevelManager.spawnValue == NEXT_LEVEL) {
+                    System.out.println("Spawn from previous level at: " + i + ", " + j);
                     return new Point(i * Game.TILES_SIZE, j*Game.TILES_SIZE);
+                }
+                // Altfel, caută spawn point cu valoare 100
+                else if (!LevelManager.comingFromPreviousLevel && LevelManager.spawnValue == 100) {
+                    System.out.println("Spawn at start level at: " + i + ", " + j);
+                    return new Point(i * Game.TILES_SIZE, j*Game.TILES_SIZE);
+                }
             }
         }
+        System.out.println("Default spawn used!");
         return new Point(1 * Game.TILES_SIZE, 1*Game.TILES_SIZE);
     }
 
@@ -233,6 +244,31 @@ public class HelpMethods {
             }
         }
         return list;
+    }
+    public static Point GetNextLevelGate(BufferedImage img) {
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value = color.getBlue();
+                if (value == NEXT_LEVEL) {
+                    return new Point(i * Game.TILES_SIZE, j*Game.TILES_SIZE);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Point GetStartPoint(BufferedImage img) {
+        for(int j=0; j< img.getHeight(); j++){
+            for(int i=0; i<img.getWidth(); i++){
+                Color color = new Color(img.getRGB(i,j));
+                int value = color.getBlue();
+                if (value == 100) {
+                    return new Point(i * Game.TILES_SIZE, j*Game.TILES_SIZE);
+                }
+            }
+        }
+        return null;
     }
 
     

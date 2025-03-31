@@ -4,6 +4,7 @@ import entities.Player;
 import gamestates.Playing;
 import levels.Level;
 import levels.LevelManager;
+import utilz.HelpMethods;
 import utilz.LoadSave;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -72,6 +73,9 @@ public class LowerLayerManager {
 
         for (NextLevel nx: nextLevel) {
             if (nx.isActive() && hitbox.intersects(nx.getHitbox()) && player.isInteracting()) {
+                LevelManager.comingFromPreviousLevel = false;
+                LevelManager.spawnValue  = 100; // Setăm înainte de resetAll și loadNextLevel
+
                 loadNextLevel(nx);
                 player.setInteraction(false);
                 return;
@@ -88,23 +92,30 @@ public class LowerLayerManager {
 
         for (PreviousLevel pv: previousLevel) {
             if (pv.isActive() && hitbox.intersects(pv.getHitbox()) && player.isInteracting()) {
+                LevelManager.comingFromPreviousLevel = true;
+                LevelManager.spawnValue  = NEXT_LEVEL; // Setăm înainte de resetAll și loadNextLevel
                 loadPreviousLevel(pv);
                 player.setInteraction(false);
+
                 return;
             }
         }
     }
 
-    private void loadPreviousLevel(PreviousLevel pv) {
+    private void loadNextLevel(NextLevel nx) {
+        System.out.println("Loading next level, spawnValue before: " + LevelManager.spawnValue);
         playing.resetAll();
-        levelManager.loadPreviousLevel();
+        levelManager.loadNextLevel(); // Această metodă nu ar mai trebui să seteze spawnValue
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        System.out.println("Next level loaded, spawnValue after: " + LevelManager.spawnValue);
     }
 
-    private void loadNextLevel(NextLevel nx) {
+    private void loadPreviousLevel(PreviousLevel pv) {
+        System.out.println("Loading previous level, spawnValue before: " + LevelManager.spawnValue);
         playing.resetAll();
-        levelManager.loadNextLevel();
+        levelManager.loadPreviousLevel(); // Această metodă nu ar mai trebui să seteze spawnValue
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        System.out.println("Previous level loaded, spawnValue after: " + LevelManager.spawnValue);
     }
 
     public void update() {

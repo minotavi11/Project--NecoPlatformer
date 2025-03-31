@@ -69,7 +69,7 @@ public class LevelCompletedOverlay {
             menu.setMouseOver(true);
         } else if(isIn(next, e)) {
             if (next.isMousePressed()) {
-               playing.loadNextLevel();
+               playing.loadPreviousLevel();
             }
         }
        menu.resetBols();

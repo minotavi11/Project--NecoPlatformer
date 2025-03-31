@@ -112,6 +112,13 @@ public class Level {
     public Point getPlayerSpawn(){
         return playerSpawn;
     }
+    public BufferedImage getLevelImage() {
+        return img;
+    }
+
+    public void setPlayerSpawn(Point spawn) {
+        this.playerSpawn = spawn;
+    }
 
     public ArrayList<Potion> getPotions(){return potions;}
 

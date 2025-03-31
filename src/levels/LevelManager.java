@@ -1,6 +1,7 @@
 package levels;
 import gamestates.Gamestate;
 import main.Game;
+import utilz.HelpMethods;
 import utilz.LoadSave;
 import utilz.HelpMethods.*;
 
@@ -9,12 +10,15 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import static utilz.Constants.LevelConstants.NEXT_LEVEL;
+
 public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
     private ArrayList<Level> levels;
     private int lvlIndex=0;
-
+    public static int spawnValue;
+    public static boolean comingFromPreviousLevel;
 
 
     public LevelManager(Game game){
@@ -28,12 +32,21 @@ public class LevelManager {
 
     public void loadNextLevel(){
         lvlIndex++;
+        comingFromPreviousLevel=false;
+        Level newLevel = levels.get(lvlIndex);
+        Point startPoint = HelpMethods.GetStartPoint(newLevel.getLevelImage());
+        if (startPoint != null) {
+            System.out.println("Found start point at: " + startPoint.x + ", " + startPoint.y);
+            newLevel.setPlayerSpawn(startPoint);
+        } else {
+            System.out.println("WARNING: No start point found in next level!");
+        }
         if(lvlIndex >= levels.size()){
             lvlIndex =0;
             System.out.println("Game Completed!");
             Gamestate.state= Gamestate.MENU;
         }
-        Level newLevel = levels.get(lvlIndex);
+
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());
@@ -44,12 +57,20 @@ public class LevelManager {
 
     public void loadPreviousLevel(){
         lvlIndex--;
+        Level newLevel = levels.get(lvlIndex);
+        comingFromPreviousLevel = true;
+        Point nextLevelGate = HelpMethods.GetNextLevelGate(newLevel.getLevelImage());
+        if (nextLevelGate != null) {
+            System.out.println("Found NEXT_LEVEL gate at: " + nextLevelGate.x + ", " + nextLevelGate.y);
+            newLevel.setPlayerSpawn(nextLevelGate);
+        } else {
+            System.out.println("WARNING: No NEXT_LEVEL gate found in previous level!");
+        }
         if(lvlIndex < 0){
             lvlIndex =0;
             System.out.println("No levels bellow this one!");
             Gamestate.state= Gamestate.MENU;
         }
-        Level newLevel = levels.get(lvlIndex);
         game.getPlaying().getEnemyManager().loadEnemies(newLevel);
         game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
         game.getPlaying().setMaxLvlOffset(newLevel.getLvlOffset());

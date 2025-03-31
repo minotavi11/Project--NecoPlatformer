@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import static utilz.Constants.PlayerConstants.*;
 import static utilz.HelpMethods.*;
+import static gamestates.Playing.*;
 
 public class Player extends Entity{
 
@@ -432,13 +433,15 @@ public class Player extends Entity{
 
 
     public void setResting(boolean resting) {
-        if (resting && healCharges > 0) {
-            this.resting = resting;
-            Heal = 20;
-            changeHealth( Heal); // Ensures you don't exceed max health
-            healCharges--; // Decrease heal charges after each use
-        } else {
-            this.resting = resting;
+        if(!isPaused()){
+            if (resting && healCharges > 0) {
+                this.resting = resting;
+                Heal = 20;
+                 changeHealth( Heal); // Ensures you don't exceed max health
+                healCharges--; // Decrease heal charges after each use
+            } else {
+                this.resting = resting;
+            }
         }
     }
 
@@ -472,7 +475,9 @@ public class Player extends Entity{
             inAir=true;
 
     }
-
+    public boolean isPaused() {
+        return playing.paused;
+    }
     public ArrayList<Spike> getSpikes(){return spikes;}
     public ArrayList<Living_Flesh> getLivingFlesh(){return livingFlesh;}
     public ArrayList<NextLevel> getNextLevels(){return nextLevels;}

@@ -34,7 +34,7 @@ public class Playing extends State implements  Statemethods{
     private PauseOverlay pauseOverlay ;
     private GameOverOverlay gameOverOverlay;
     private LevelCompletedOverlay levelCompletedOverlay;
-    private boolean paused = false;
+    public boolean paused = false;
     private int xLvlOffset;
     private int yLvlOffset;
     private int leftBorder = (int)(0.5 * Game.GAME_WIDTH);
@@ -72,6 +72,11 @@ public class Playing extends State implements  Statemethods{
     public void loadNextLevel(){
         resetAll();
         levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+    public void loadPreviousLevel(){
+        resetAll();
+        levelManager.loadPreviousLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
     }
 
